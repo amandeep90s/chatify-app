@@ -6,10 +6,14 @@ import {
   Notifications as NotificationsIcon,
   Search as SearchIcon,
 } from '@mui/icons-material';
-import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+import { AppBar, Backdrop, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
+
+const SearchDialog = lazy(() => import('@/components/app/Search'));
+const NotificationDialog = lazy(() => import('@/components/app/Notifications'));
+const NewGroupDialog = lazy(() => import('@/components/app/NewGroup'));
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -47,21 +51,21 @@ function Header() {
   const navigate = useNavigate();
 
   // State for managing dialog/modal visibility
-  const [_dialogs, setDialogs] = useState({
+  const [dialogs, setDialogs] = useState({
     mobile: false,
     search: false,
     newGroup: false,
     notification: false,
   });
 
-  const toggleDialog = dialogName => {
-    setDialogs(prev => ({
+  const toggleDialog = (dialogName) => {
+    setDialogs((prev) => ({
       ...prev,
       [dialogName]: !prev[dialogName],
     }));
   };
 
-  const handleNavigation = path => {
+  const handleNavigation = (path) => {
     navigate(path);
   };
 
@@ -94,35 +98,48 @@ function Header() {
   ];
 
   return (
-    <HeaderContainer>
-      <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <HeaderLink to="/">
-            <HeaderText sx={{ display: { xs: 'none', sm: 'block' } }} variant="h6">
-              Chatify
-            </HeaderText>
-          </HeaderLink>
+    <>
+      <HeaderContainer>
+        <AppBar position="static" color="transparent" elevation={0}>
+          <Toolbar
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <HeaderLink to="/">
+              <HeaderText sx={{ display: { xs: 'none', sm: 'block' } }} variant="h6">
+                Chatify
+              </HeaderText>
+            </HeaderLink>
 
-          <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-            <IconButton color="inherit" onClick={() => toggleDialog('mobile')}>
-              <MenuIcon />
-            </IconButton>
-          </Box>
+            <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+              <IconButton color="inherit" onClick={() => toggleDialog('mobile')}>
+                <MenuIcon />
+              </IconButton>
+            </Box>
 
-          <Box>
-            {headerActions.map(({ title, icon, onClick }) => (
-              <ActionButton key={title} title={title} icon={icon} onClick={onClick} />
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </HeaderContainer>
+            <Box>
+              {headerActions.map(({ title, icon, onClick }) => (
+                <ActionButton key={title} title={title} icon={icon} onClick={onClick} />
+              ))}
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </HeaderContainer>
+
+      <Suspense fallback={<Backdrop open />}>
+        {/* Search Dialog */}
+        {dialogs.search && <SearchDialog />}
+
+        {/* Notification Dialog */}
+        {dialogs.notification && <NotificationDialog />}
+
+        {/* New Group */}
+        {dialogs.newGroup && <NewGroupDialog />}
+      </Suspense>
+    </>
   );
 }
 

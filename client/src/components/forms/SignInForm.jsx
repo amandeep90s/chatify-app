@@ -19,7 +19,7 @@ function SignInForm({ toggleLogin }) {
     },
   });
 
-  const onLoginFormSubmit = data => {
+  const onLoginFormSubmit = (data) => {
     console.log('Login data:', data);
     reset();
   };

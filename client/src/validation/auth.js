@@ -23,24 +23,24 @@ export const signUpSchema = z.object({
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number')
     .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character (!@#$%^&*)')
-    .refine(val => !/\s/.test(val), {
+    .refine((val) => !/\s/.test(val), {
       message: 'Password must not contain spaces',
     })
-    .refine(val => !/(.)\1{2,}/.test(val), {
+    .refine((val) => !/(.)\1{2,}/.test(val), {
       message: 'Password must not contain repeated characters (e.g., aaa)',
     }),
   avatar: z
     .any()
     .optional()
     .refine(
-      file => {
+      (file) => {
         if (!file || file.length === 0) return true; // Optional field
         return file[0]?.size <= 1 * 1024 * 1024; // 1MB limit
       },
       { message: 'Avatar file size should be less than 5MB' }
     )
     .refine(
-      file => {
+      (file) => {
         if (!file || file.length === 0) return true; // Optional field
         return ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file[0]?.type);
       },

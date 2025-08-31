@@ -3,8 +3,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 
-import whatsappTheme from './theme/whatsappTheme.js';
-import App from './App.jsx';
+import App from '@/App.jsx';
+import whatsappTheme from '@/theme/whatsappTheme.js';
 
 import '@fontsource/ibm-plex-sans/300.css'; // Light
 import '@fontsource/ibm-plex-sans/400.css'; // Regular
@@ -17,7 +17,9 @@ createRoot(document.getElementById('root')).render(
     <HelmetProvider>
       <ThemeProvider theme={whatsappTheme}>
         <CssBaseline />
-        <App />
+        <div onContextMenu={(e) => e.preventDefault()}>
+          <App />
+        </div>
       </ThemeProvider>
     </HelmetProvider>
   </StrictMode>

@@ -10,7 +10,7 @@ function LoginPage() {
   const theme = useTheme();
 
   const toggleLogin = () => {
-    setIsLogin(prevValue => !prevValue);
+    setIsLogin((prevValue) => !prevValue);
   };
 
   return (

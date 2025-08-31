@@ -28,7 +28,7 @@ function SignUpForm({ toggleLogin }) {
     },
   });
 
-  const handleAvatarChange = event => {
+  const handleAvatarChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       // Set the value for form validation
@@ -47,7 +47,7 @@ function SignUpForm({ toggleLogin }) {
     }
   };
 
-  const onSignUpFormSubmit = data => {
+  const onSignUpFormSubmit = (data) => {
     // Create FormData for file upload
     const formData = new FormData();
     formData.append('name', data.name);
