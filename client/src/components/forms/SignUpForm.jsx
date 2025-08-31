@@ -1,16 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
-import {
-  Avatar,
-  Button,
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
-import { signUpSchema } from "../../validation/auth";
-import { VisuallyHiddenInput } from "../styles/StyledComponents";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CameraAlt as CameraAltIcon } from '@mui/icons-material';
+import { Avatar, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { useForm } from 'react-hook-form';
+
+import { VisuallyHiddenInput } from '@/components/styles/StyledComponents';
+import { signUpSchema } from '@/validation/auth';
 
 function SignUpForm({ toggleLogin }) {
   const {
@@ -21,15 +15,15 @@ function SignUpForm({ toggleLogin }) {
   } = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      name: "",
-      bio: "",
-      username: "",
-      password: "",
+      name: '',
+      bio: '',
+      username: '',
+      password: '',
     },
   });
 
-  const onSignUpFormSubmit = (data) => {
-    console.log("Sign Up Data:", data);
+  const onSignUpFormSubmit = data => {
+    console.log('Sign Up Data:', data);
     reset();
   };
 
@@ -37,27 +31,22 @@ function SignUpForm({ toggleLogin }) {
     <>
       <Typography variant="h5">Sign Up</Typography>
 
-      <form
-        onSubmit={handleSubmit(onSignUpFormSubmit)}
-        style={{ width: "100%", marginTop: "1rem" }}
-      >
-        <Stack position={"relative"} width={"10rem"} margin={"auto"}>
-          <Avatar
-            sx={{ width: "10rem", height: "10rem", objectFit: "contain" }}
-          />
+      <form onSubmit={handleSubmit(onSignUpFormSubmit)} style={{ width: '100%', marginTop: '1rem' }}>
+        <Stack position={'relative'} width={'10rem'} margin={'auto'}>
+          <Avatar sx={{ width: '10rem', height: '10rem', objectFit: 'contain' }} />
 
           <IconButton
             sx={{
-              position: "absolute",
+              position: 'absolute',
               bottom: 0,
               right: 0,
-              color: "white",
-              bgcolor: "rgba(0,0,0,0.5)",
-              ":hover": {
-                bgcolor: "rgba(0,0,0,0.7)",
+              color: 'white',
+              bgcolor: 'rgba(0,0,0,0.5)',
+              ':hover': {
+                bgcolor: 'rgba(0,0,0,0.7)',
               },
             }}
-            component={"label"}
+            component={'label'}
           >
             <>
               <CameraAltIcon />
@@ -71,9 +60,9 @@ function SignUpForm({ toggleLogin }) {
           label="Name"
           margin="normal"
           variant="outlined"
-          {...register("name")}
+          {...register('name')}
           error={!!errors.name}
-          helperText={errors.name ? errors.name.message : ""}
+          helperText={errors.name ? errors.name.message : ''}
           disabled={isSubmitting}
           autoComplete="off"
         />
@@ -83,9 +72,9 @@ function SignUpForm({ toggleLogin }) {
           label="Bio"
           margin="normal"
           variant="outlined"
-          {...register("bio")}
+          {...register('bio')}
           error={!!errors.bio}
-          helperText={errors.bio ? errors.bio.message : ""}
+          helperText={errors.bio ? errors.bio.message : ''}
           disabled={isSubmitting}
         />
 
@@ -94,9 +83,9 @@ function SignUpForm({ toggleLogin }) {
           label="Username"
           margin="normal"
           variant="outlined"
-          {...register("username")}
+          {...register('username')}
           error={!!errors.username}
-          helperText={errors.username ? errors.username.message : ""}
+          helperText={errors.username ? errors.username.message : ''}
           disabled={isSubmitting}
           autoComplete="off"
         />
@@ -107,23 +96,17 @@ function SignUpForm({ toggleLogin }) {
           label="Password"
           margin="normal"
           variant="outlined"
-          {...register("password")}
+          {...register('password')}
           error={!!errors.password}
-          helperText={errors.password ? errors.password.message : ""}
+          helperText={errors.password ? errors.password.message : ''}
           disabled={isSubmitting}
         />
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ mt: "1rem" }}
-          fullWidth
-        >
+        <Button type="submit" variant="contained" color="primary" sx={{ mt: '1rem' }} fullWidth>
           Sign Up
         </Button>
 
-        <Typography textAlign="center" m={"1rem"}>
+        <Typography textAlign="center" m={'1rem'}>
           OR
         </Typography>
 

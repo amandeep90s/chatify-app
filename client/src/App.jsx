@@ -1,10 +1,10 @@
-import { lazy } from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { lazy } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
-const Home = lazy(() => import("./pages/Home"));
-const Login = lazy(() => import("./pages/Login"));
-const Chat = lazy(() => import("./pages/Chat"));
-const Groups = lazy(() => import("./pages/Groups"));
+const Home = lazy(() => import('@/pages/Home'));
+const Login = lazy(() => import('@/pages/Login'));
+const Chat = lazy(() => import('@/pages/Chat'));
+const Groups = lazy(() => import('@/pages/Groups'));
 
 const App = () => {
   return (

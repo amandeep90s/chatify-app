@@ -1,0 +1,11 @@
+dist
+node_modules
+*.log
+.git
+.vscode
+.env
+*.min.js
+*.min.css
+coverage
+build
+eslint.config.js
