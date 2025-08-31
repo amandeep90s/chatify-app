@@ -29,4 +29,21 @@ export const signUpSchema = z.object({
     .refine(val => !/(.)\1{2,}/.test(val), {
       message: 'Password must not contain repeated characters (e.g., aaa)',
     }),
+  avatar: z
+    .any()
+    .optional()
+    .refine(
+      file => {
+        if (!file || file.length === 0) return true; // Optional field
+        return file[0]?.size <= 1 * 1024 * 1024; // 1MB limit
+      },
+      { message: 'Avatar file size should be less than 5MB' }
+    )
+    .refine(
+      file => {
+        if (!file || file.length === 0) return true; // Optional field
+        return ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file[0]?.type);
+      },
+      { message: 'Avatar must be a valid image file (JPEG, PNG, GIF, or WebP)' }
+    ),
 });
