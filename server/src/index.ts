@@ -15,7 +15,6 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
-// import mongoSanitize from 'express-mongo-sanitize'; // Disabled due to Express 5 compatibility
 import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import helmet from 'helmet';
@@ -79,55 +78,6 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
-
-// Data sanitization and security
-// Temporary fix: Disable mongo sanitization due to Express 5 compatibility issues
-// TODO: Update express-mongo-sanitize or find alternative when available
-if (process.env.NODE_ENV === 'production') {
-  // Only enable in production with a more careful approach
-  app.use('/api', (req, res, next) => {
-    if (req.path.startsWith('/docs')) {
-      return next();
-    }
-
-    // Manual sanitization for production
-    const sanitizeObject = (obj: Record<string, unknown>): Record<string, unknown> => {
-      if (obj && typeof obj === 'object') {
-        for (const key in obj) {
-          if (key.startsWith('$') || key.includes('.')) {
-            delete obj[key];
-          } else if (typeof obj[key] === 'object') {
-            obj[key] = sanitizeObject(obj[key] as Record<string, unknown>);
-          }
-        }
-      }
-      return obj;
-    };
-
-    // Sanitize request body, query, and params
-    if (req.body) {
-      req.body = sanitizeObject(req.body);
-    }
-    if (req.query) {
-      // Handle query sanitization carefully due to Express typing
-      try {
-        const sanitizedQuery = sanitizeObject(req.query as Record<string, unknown>);
-        Object.keys(req.query).forEach(key => delete req.query[key]);
-        Object.assign(req.query, sanitizedQuery);
-      } catch (error) {
-        logger.warn('Query sanitization failed:', error);
-      }
-    }
-    if (req.params) {
-      req.params = sanitizeObject(req.params);
-    }
-
-    next();
-  });
-} else {
-  // Development mode: Skip mongo sanitization for better debugging
-  logger.info('⚠️  Mongo sanitization disabled in development mode');
-}
 
 app.use(hpp());
 

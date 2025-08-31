@@ -49,10 +49,6 @@ export const validateObjectId = (id: string): boolean => {
   return /^[0-9a-fA-F]{24}$/.test(id);
 };
 
-export const sanitizeInput = (input: string): string => {
-  return input.trim().replace(/[<>]/g, '');
-};
-
 export const calculatePagination = (page: number = 1, limit: number = 10, total: number) => {
   const currentPage = Math.max(1, page);
   const currentLimit = Math.min(Math.max(1, limit), 100); // Max 100 items per page

@@ -43,7 +43,6 @@ Backend server for the Chatify real-time chat application built with Node.js, Ex
 - `helmet` - Security headers
 - `cors` - Cross-origin resource sharing
 - `express-rate-limit` - Rate limiting
-- `express-mongo-sanitize` - MongoDB injection prevention
 - `xss` - Cross-site scripting prevention
 - `hpp` - HTTP parameter pollution prevention
 
@@ -168,7 +167,7 @@ src/
 - **Authentication**: JWT with refresh token rotation
 - **Password Security**: bcrypt with configurable salt rounds
 - **Rate Limiting**: Configurable request limits per IP
-- **Input Sanitization**: MongoDB injection and XSS prevention
+- **Input Validation**: Comprehensive validation with Zod schemas
 - **Security Headers**: Helmet.js for secure HTTP headers
 - **CORS**: Configurable cross-origin resource sharing
 - **Session Security**: Secure session management with MongoDB store
