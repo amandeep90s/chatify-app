@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { z, ZodError } from 'zod';
 
 // Main validation middleware
@@ -14,8 +14,13 @@ export const validate = (schema: z.ZodSchema<any>) => {
 
       // Replace req with validated data
       req.body = validated.body || req.body;
-      req.query = validated.query || req.query;
-      req.params = validated.params || req.params;
+      // Don't try to reassign query and params as they might be read-only
+      if (validated.query) {
+        Object.assign(req.query, validated.query);
+      }
+      if (validated.params) {
+        Object.assign(req.params, validated.params);
+      }
 
       next();
     } catch (error) {

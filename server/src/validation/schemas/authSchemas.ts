@@ -3,20 +3,29 @@ import { z } from 'zod';
 // User registration schema
 export const registerSchema = z.object({
   body: z.object({
-    name: z.string().trim().min(2, 'Name must be at least 2 characters').max(50, 'Name cannot exceed 50 characters'),
+    name: z.string().trim().min(1, 'Name is required').max(100, 'Name is too long'),
+    bio: z.string().trim().min(1, 'Bio is required').max(255, 'Bio is too long'),
     username: z
       .string()
       .trim()
-      .min(3, 'Username must be at least 3 characters')
-      .max(20, 'Username cannot exceed 20 characters')
-      .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
+      .min(1, 'Username is required')
+      .max(100, 'Username is too long')
+      .regex(/^[A-Za-z0-9]+$/, 'Username can only contain letters and digits'),
     password: z
       .string()
-      .min(6, 'Password must be at least 6 characters')
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        'Password must contain at least one uppercase letter, one lowercase letter, and one number',
-      ),
+      .trim()
+      .min(8, 'Password must be at least 8 characters')
+      .max(128, 'Password must not exceed 128 characters')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[0-9]/, 'Password must contain at least one number')
+      .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character (!@#$%^&*)')
+      .refine(val => !/\s/.test(val), {
+        message: 'Password must not contain spaces',
+      })
+      .refine(val => !/(.)\1{2,}/.test(val), {
+        message: 'Password must not contain repeated characters (e.g., aaa)',
+      }),
     email: z.string().email('Please provide a valid email').optional().or(z.literal('')),
   }),
 });
@@ -51,7 +60,7 @@ export const changePasswordSchema = z.object({
       .string()
       .min(6, 'New password must be at least 6 characters')
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/,
         'New password must contain at least one uppercase letter, one lowercase letter, and one number',
       ),
   }),
@@ -79,7 +88,7 @@ export const passwordResetSchema = z.object({
       .string()
       .min(6, 'Password must be at least 6 characters')
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/,
         'Password must contain at least one uppercase letter, one lowercase letter, and one number',
       ),
   }),

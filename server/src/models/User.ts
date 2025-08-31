@@ -35,7 +35,7 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: [true, 'Name is required'],
       trim: true,
-      maxlength: [50, 'Name cannot exceed 50 characters'],
+      maxlength: [100, 'Name is too long'],
     },
     username: {
       type: String,
@@ -43,9 +43,9 @@ const userSchema = new Schema<IUser>(
       unique: true,
       trim: true,
       lowercase: true,
-      minlength: [3, 'Username must be at least 3 characters'],
-      maxlength: [20, 'Username cannot exceed 20 characters'],
-      match: [/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'],
+      minlength: [1, 'Username is required'],
+      maxlength: [100, 'Username is too long'],
+      match: [/^[A-Za-z0-9]+$/, 'Username can only contain letters and digits'],
     },
     email: {
       type: String,
@@ -56,7 +56,8 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: [true, 'Password is required'],
-      minlength: [6, 'Password must be at least 6 characters'],
+      minlength: [8, 'Password must be at least 8 characters'],
+      maxlength: [128, 'Password must not exceed 128 characters'],
       select: false,
     },
     avatar: {
@@ -65,7 +66,8 @@ const userSchema = new Schema<IUser>(
     },
     bio: {
       type: String,
-      maxlength: [200, 'Bio cannot exceed 200 characters'],
+      required: [true, 'Bio is required'],
+      maxlength: [255, 'Bio is too long'],
       default: '',
     },
     role: {

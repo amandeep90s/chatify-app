@@ -49,7 +49,7 @@ const sendTokenResponse = (user: any, statusCode: number, res: Response): void =
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, username, email, password } = req.body;
+    const { name, username, email, password, bio } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({
@@ -70,6 +70,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       username,
       email,
       password,
+      bio,
     });
 
     sendTokenResponse(user, 201, res);
