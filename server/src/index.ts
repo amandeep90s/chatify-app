@@ -1,6 +1,7 @@
 import { connectDB } from '@/config/database';
 import logger, { morganStream } from '@/config/logger';
 import { setupSocketIO } from '@/config/socket';
+import { setupSwagger } from '@/config/swagger';
 import { globalErrorHandler, notFound } from '@/middleware/errorMiddleware';
 import adminRoutes from '@/routes/adminRoutes';
 import authRoutes from '@/routes/authRoutes';
@@ -14,7 +15,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
-import mongoSanitize from 'express-mongo-sanitize';
+// import mongoSanitize from 'express-mongo-sanitize'; // Disabled due to Express 5 compatibility
 import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import helmet from 'helmet';
@@ -80,7 +81,54 @@ app.use(
 );
 
 // Data sanitization and security
-app.use(mongoSanitize());
+// Temporary fix: Disable mongo sanitization due to Express 5 compatibility issues
+// TODO: Update express-mongo-sanitize or find alternative when available
+if (process.env.NODE_ENV === 'production') {
+  // Only enable in production with a more careful approach
+  app.use('/api', (req, res, next) => {
+    if (req.path.startsWith('/docs')) {
+      return next();
+    }
+
+    // Manual sanitization for production
+    const sanitizeObject = (obj: Record<string, unknown>): Record<string, unknown> => {
+      if (obj && typeof obj === 'object') {
+        for (const key in obj) {
+          if (key.startsWith('$') || key.includes('.')) {
+            delete obj[key];
+          } else if (typeof obj[key] === 'object') {
+            obj[key] = sanitizeObject(obj[key] as Record<string, unknown>);
+          }
+        }
+      }
+      return obj;
+    };
+
+    // Sanitize request body, query, and params
+    if (req.body) {
+      req.body = sanitizeObject(req.body);
+    }
+    if (req.query) {
+      // Handle query sanitization carefully due to Express typing
+      try {
+        const sanitizedQuery = sanitizeObject(req.query as Record<string, unknown>);
+        Object.keys(req.query).forEach(key => delete req.query[key]);
+        Object.assign(req.query, sanitizedQuery);
+      } catch (error) {
+        logger.warn('Query sanitization failed:', error);
+      }
+    }
+    if (req.params) {
+      req.params = sanitizeObject(req.params);
+    }
+
+    next();
+  });
+} else {
+  // Development mode: Skip mongo sanitization for better debugging
+  logger.info('⚠️  Mongo sanitization disabled in development mode');
+}
+
 app.use(hpp());
 
 // Body parsing middleware
@@ -126,6 +174,31 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // Health check endpoint
+/**
+ * @swagger
+ * /api/health:
+ *   get:
+ *     summary: Health check endpoint
+ *     tags: [System]
+ *     responses:
+ *       200:
+ *         description: Server is running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 message:
+ *                   type: string
+ *                   example: Server is running
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                   example: 2023-12-01T10:30:00.000Z
+ */
 app.get('/api/health', (_req, res) => {
   res.status(200).json({
     status: 'success',
@@ -133,6 +206,11 @@ app.get('/api/health', (_req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// Setup Swagger documentation
+if (process.env.NODE_ENV !== 'production') {
+  setupSwagger(app);
+}
 
 // Error handling middleware
 app.use(notFound);
