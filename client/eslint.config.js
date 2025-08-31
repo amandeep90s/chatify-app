@@ -7,10 +7,21 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores([
+    'dist',
+    'node_modules',
+    '*.log',
+    '.git',
+    '.vscode',
+    '.env',
+    '*.min.js',
+    '*.min.css',
+    'coverage',
+    'build',
+    'eslint.config.js'
+  ]),
   {
     files: ['**/*.{js,jsx}'],
-    ignores: ['eslint.config.js'], // Exclude this file from linting to avoid circular issues
     extends: [js.configs.recommended, reactHooks.configs['recommended-latest'], reactRefresh.configs.vite],
     plugins: {
       'simple-import-sort': simpleImportSort,

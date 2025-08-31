@@ -1,4 +1,5 @@
-import { Container, Paper } from '@mui/material';
+import { Box, Container, Paper } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 
 import SignInForm from '@/components/forms/SignInForm';
@@ -6,34 +7,42 @@ import SignUpForm from '@/components/forms/SignUpForm';
 
 function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const theme = useTheme();
 
   const toggleLogin = () => {
     setIsLogin(prevValue => !prevValue);
   };
 
   return (
-    <Container
-      component={'main'}
-      maxWidth="xs"
+    <Box
       sx={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        background: theme.palette.background.login,
+        minHeight: '100vh',
       }}
     >
-      <Paper
-        elevation={3}
+      <Container
+        component={'main'}
+        maxWidth="xs"
         sx={{
-          padding: 4,
+          height: '100vh',
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'center',
           alignItems: 'center',
         }}
       >
-        {isLogin ? <SignInForm toggleLogin={toggleLogin} /> : <SignUpForm toggleLogin={toggleLogin} />}
-      </Paper>
-    </Container>
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {isLogin ? <SignInForm toggleLogin={toggleLogin} /> : <SignUpForm toggleLogin={toggleLogin} />}
+        </Paper>
+      </Container>
+    </Box>
   );
 }
 

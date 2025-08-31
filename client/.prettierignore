@@ -9,3 +9,4 @@ node_modules
 coverage
 build
 eslint.config.js
+pnpm-lock.yaml
