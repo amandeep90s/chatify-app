@@ -14,6 +14,7 @@ function SignUpForm({ toggleLogin }) {
     reset,
   } = useForm({
     resolver: zodResolver(signUpSchema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
       bio: '',
@@ -102,7 +103,7 @@ function SignUpForm({ toggleLogin }) {
           disabled={isSubmitting}
         />
 
-        <Button type="submit" variant="contained" color="primary" sx={{ mt: '1rem' }} fullWidth>
+        <Button type="submit" variant="contained" color="primary" sx={{ mt: '1rem' }} size="large" fullWidth>
           Sign Up
         </Button>
 

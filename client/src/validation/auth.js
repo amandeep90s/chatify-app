@@ -1,16 +1,22 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  username: z.string().min(1, 'Username is required').max(100, 'Username is too long'),
-  password: z.string().min(1, 'Password is required').max(100, 'Password is too long'),
+  username: z.string().trim().min(1, 'Username is required').max(100, 'Username is too long'),
+  password: z.string().trim().min(1, 'Password is required').max(100, 'Password is too long'),
 });
 
 export const signUpSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(100, 'Name is too long'),
-  bio: z.string().min(1, 'Bio is required').max(255, 'Bio is too long'),
-  username: z.string().min(1, 'Username is required').max(100, 'Username is too long'),
+  name: z.string().trim().min(1, 'Name is required').max(100, 'Name is too long'),
+  bio: z.string().trim().min(1, 'Bio is required').max(255, 'Bio is too long'),
+  username: z
+    .string()
+    .trim()
+    .min(1, 'Username is required')
+    .max(100, 'Username is too long')
+    .regex(/^[A-Za-z0-9]+$/, 'Username can only contain letters and digits'),
   password: z
     .string()
+    .trim()
     .min(8, 'Password must be at least 8 characters')
     .max(128, 'Password must not exceed 128 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')

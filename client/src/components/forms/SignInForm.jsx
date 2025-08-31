@@ -12,6 +12,7 @@ function SignInForm({ toggleLogin }) {
     reset,
   } = useForm({
     resolver: zodResolver(loginSchema),
+    mode: 'onChange',
     defaultValues: {
       username: '',
       password: '',
@@ -53,7 +54,7 @@ function SignInForm({ toggleLogin }) {
           autoComplete="off"
         />
 
-        <Button type="submit" variant="contained" color="primary" sx={{ mt: '1rem' }} fullWidth>
+        <Button type="submit" variant="contained" color="primary" sx={{ mt: '1rem' }} size="large" fullWidth>
           Login
         </Button>
 
