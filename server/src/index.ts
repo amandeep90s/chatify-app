@@ -174,8 +174,10 @@ connectDB();
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
-  logger.info(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  server.listen(PORT, () => {
+    logger.info(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+  });
+}
 
 export { app, io, server };

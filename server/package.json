@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
@@ -14,8 +14,12 @@
     "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
     "check": "pnpm format:check && pnpm lint",
     "fix": "pnpm format && pnpm lint:fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --forceExit --detectOpenHandles",
+    "test:watch": "jest --watch --forceExit",
+    "test:coverage": "jest --coverage --forceExit --detectOpenHandles",
+    "test:coverage:watch": "jest --coverage --watch --forceExit",
+    "test:coverage:open": "pnpm test:coverage && open coverage/lcov-report/index.html",
+    "test:single": "jest --forceExit --detectOpenHandles --testNamePattern",
     "clean": "rimraf dist"
   },
   "keywords": [
@@ -87,6 +91,8 @@
     "rimraf": "^6.0.1",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   },
