@@ -87,7 +87,6 @@ const areEqual = (prevProps, nextProps) => {
 UserItem.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string,
-    id: PropTypes.string,
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string,
   }).isRequired,
