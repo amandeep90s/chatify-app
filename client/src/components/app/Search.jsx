@@ -104,15 +104,15 @@ function Search({ open = true, onClose, isLoading = false }) {
                   width: 8,
                 },
                 '&::-webkit-scrollbar-track': {
-                  background: '#f1f1f1',
+                  background: (theme) => theme.palette.linkedin?.gray200 || '#f1f1f1',
                   borderRadius: 4,
                 },
                 '&::-webkit-scrollbar-thumb': {
-                  background: '#888',
+                  background: (theme) => theme.palette.linkedin?.gray500 || '#888',
                   borderRadius: 4,
                 },
                 '&::-webkit-scrollbar-thumb:hover': {
-                  background: '#555',
+                  background: (theme) => theme.palette.linkedin?.gray600 || '#555',
                 },
               }}
               role="list"
