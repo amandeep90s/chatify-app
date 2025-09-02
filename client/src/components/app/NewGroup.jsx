@@ -1,21 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Alert,
-  Box,
-  Button,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Chip, Stack, TextField, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import AppDialog from '@/components/common/AppDialog';
 import { sampleUsers } from '@/constants/sampleData';
 import { createGroupSchema } from '@/validation/group';
 
@@ -143,117 +132,117 @@ function NewGroup({ open = false, onClose, onCreateGroup, isLoading = false, err
 
   const isFormDisabled = isLoading || isSubmitting;
 
+  const dialogActions = (
+    <>
+      <Button variant="text" color="inherit" onClick={handleClose} disabled={isFormDisabled}>
+        Cancel
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit(onSubmit)}
+        disabled={isFormDisabled || selectedMembers.size === 0}
+        type="submit"
+      >
+        {isSubmitting ? 'Creating...' : 'Create Group'}
+      </Button>
+    </>
+  );
+
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth onClose={handleClose} aria-labelledby="new-group-dialog-title">
-      <DialogTitle id="new-group-dialog-title">Create New Group</DialogTitle>
-
-      <DialogContent sx={dialogContentStyles}>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
+    <AppDialog
+      open={open}
+      onClose={handleClose}
+      title="Create New Group"
+      loading={isLoading || isSubmitting}
+      error={error}
+      actions={dialogActions}
+      contentStyles={dialogContentStyles}
+    >
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              fullWidth
+              label="Group Name"
+              placeholder="Enter group name"
+              margin="normal"
+              variant="outlined"
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              disabled={isFormDisabled}
+              autoComplete="off"
+              autoFocus
+            />
           )}
+        />
 
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Group Name"
-                placeholder="Enter group name"
-                margin="normal"
-                variant="outlined"
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                disabled={isFormDisabled}
-                autoComplete="off"
-                autoFocus
-              />
-            )}
-          />
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              fullWidth
+              label="Description (Optional)"
+              placeholder="Enter group description"
+              margin="normal"
+              variant="outlined"
+              multiline
+              rows={2}
+              error={!!errors.description}
+              helperText={errors.description?.message}
+              disabled={isFormDisabled}
+              autoComplete="off"
+            />
+          )}
+        />
 
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Description (Optional)"
-                placeholder="Enter group description"
-                margin="normal"
-                variant="outlined"
-                multiline
-                rows={2}
-                error={!!errors.description}
-                helperText={errors.description?.message}
-                disabled={isFormDisabled}
-                autoComplete="off"
-              />
-            )}
-          />
+        <Typography variant="h6" sx={{ mt: 3, mb: 1 }}>
+          Select Members ({selectedMembers.size})
+        </Typography>
 
-          <Typography variant="h6" sx={{ mt: 3, mb: 1 }}>
-            Select Members ({selectedMembers.size})
+        {errors.members && (
+          <Typography variant="caption" color="error" display="block" sx={{ mb: 1 }}>
+            {errors.members.message}
           </Typography>
+        )}
 
-          {errors.members && (
-            <Typography variant="caption" color="error" display="block" sx={{ mb: 1 }}>
-              {errors.members.message}
+        {/* Selected Members Display */}
+        {selectedMembers.size > 0 && (
+          <Box sx={selectedMembersStyles}>
+            {selectedUserDetails.map((user) => (
+              <Chip
+                key={user._id}
+                label={user.name}
+                onDelete={() => handleRemoveMember(user._id)}
+                color="primary"
+                variant="outlined"
+                disabled={isFormDisabled}
+              />
+            ))}
+          </Box>
+        )}
+
+        {/* Available Users List */}
+        <Box sx={membersContainerStyles}>
+          {availableUsers.length > 0 ? (
+            <Stack spacing={0.5}>
+              {availableUsers.map((user) => (
+                <UserItem key={user._id} user={user} handler={handleMemberToggle} isLoading={isFormDisabled} />
+              ))}
+            </Stack>
+          ) : (
+            <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ py: 2 }}>
+              {selectedMembers.size > 0 ? 'All available users have been selected' : 'No users available'}
             </Typography>
           )}
-
-          {/* Selected Members Display */}
-          {selectedMembers.size > 0 && (
-            <Box sx={selectedMembersStyles}>
-              {selectedUserDetails.map((user) => (
-                <Chip
-                  key={user._id}
-                  label={user.name}
-                  onDelete={() => handleRemoveMember(user._id)}
-                  color="primary"
-                  variant="outlined"
-                  disabled={isFormDisabled}
-                />
-              ))}
-            </Box>
-          )}
-
-          {/* Available Users List */}
-          <Box sx={membersContainerStyles}>
-            {availableUsers.length > 0 ? (
-              <Stack spacing={0.5}>
-                {availableUsers.map((user) => (
-                  <UserItem key={user._id} user={user} handler={handleMemberToggle} isLoading={isFormDisabled} />
-                ))}
-              </Stack>
-            ) : (
-              <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ py: 2 }}>
-                {selectedMembers.size > 0 ? 'All available users have been selected' : 'No users available'}
-              </Typography>
-            )}
-          </Box>
-        </form>
-      </DialogContent>
-
-      <DialogActions sx={{ p: 2, gap: 1 }}>
-        <Button variant="text" color="inherit" onClick={handleClose} disabled={isFormDisabled}>
-          Cancel
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit(onSubmit)}
-          disabled={isFormDisabled || selectedMembers.size === 0}
-          type="submit"
-        >
-          {isSubmitting ? 'Creating...' : 'Create Group'}
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </Box>
+      </form>
+    </AppDialog>
   );
 }
 

@@ -1,40 +1,13 @@
-import { Close as CloseIcon, Search as SearchIcon } from '@mui/icons-material';
-import {
-  Box,
-  CircularProgress,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  InputAdornment,
-  List,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
+import { Box, CircularProgress, InputAdornment, List, TextField, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 
+import AppDialog from '@/components/common/AppDialog';
 import { sampleUsers } from '@/constants/sampleData';
+import { useDebounce } from '@/hooks';
 
 import UserItem from './UserItem';
-
-// Debounce hook for search optimization
-const useDebounce = (value, delay) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
 
 function Search({ open = true, onClose, isLoading = false }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -85,15 +58,6 @@ function Search({ open = true, onClose, isLoading = false }) {
     }
   }, [onClose, isLoading]);
 
-  const handleKeyDown = useCallback(
-    (event) => {
-      if (event.key === 'Escape') {
-        handleClose();
-      }
-    },
-    [handleClose]
-  );
-
   // Optimize rendering for large lists
   const renderUserItem = useCallback(
     (user) => (
@@ -102,101 +66,86 @@ function Search({ open = true, onClose, isLoading = false }) {
     [handleUserAdd, addingUsers, isLoading]
   );
 
-  return (
-    <Dialog open={open} maxWidth="sm" fullWidth aria-labelledby="search-dialog-title" onKeyDown={handleKeyDown}>
-      <Stack padding={2} direction="column" spacing={2}>
-        <DialogTitle
-          id="search-dialog-title"
-          sx={{
-            textAlign: 'center',
-            pb: 1,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Box sx={{ width: 40 }} /> {/* Spacer for center alignment */}
-          Find People
-          <IconButton onClick={handleClose} disabled={isLoading} size="small" aria-label="Close search dialog">
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
+  const dialogContent = (
+    <>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="Search by name..."
+        size="small"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        disabled={isLoading}
+        autoFocus
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          },
+        }}
+        sx={{ mb: 2 }}
+      />
 
-        <DialogContent sx={{ p: 0 }}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Search by name..."
-            size="small"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            disabled={isLoading}
-            autoFocus
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-            sx={{ mb: 2 }}
-          />
-
-          {isLoading ? (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight={200}>
-              <CircularProgress />
-            </Box>
+      {isLoading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight={200}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          {filteredUsers.length > 0 ? (
+            <List
+              sx={{
+                maxHeight: 400,
+                overflow: 'auto',
+                '&::-webkit-scrollbar': {
+                  width: 8,
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: '#f1f1f1',
+                  borderRadius: 4,
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#888',
+                  borderRadius: 4,
+                },
+                '&::-webkit-scrollbar-thumb:hover': {
+                  background: '#555',
+                },
+              }}
+              role="list"
+              aria-label="Search results"
+            >
+              {filteredUsers.map(renderUserItem)}
+            </List>
           ) : (
-            <>
-              {filteredUsers.length > 0 ? (
-                <List
-                  sx={{
-                    maxHeight: 400,
-                    overflow: 'auto',
-                    '&::-webkit-scrollbar': {
-                      width: 8,
-                    },
-                    '&::-webkit-scrollbar-track': {
-                      background: '#f1f1f1',
-                      borderRadius: 4,
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                      background: '#888',
-                      borderRadius: 4,
-                    },
-                    '&::-webkit-scrollbar-thumb:hover': {
-                      background: '#555',
-                    },
-                  }}
-                  role="list"
-                  aria-label="Search results"
-                >
-                  {filteredUsers.map(renderUserItem)}
-                </List>
-              ) : (
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  justifyContent="center"
-                  minHeight={200}
-                  textAlign="center"
-                >
-                  <Typography variant="h6" color="text.secondary" gutterBottom>
-                    No users found
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {searchTerm ? `No users match "${searchTerm}"` : 'No users available'}
-                  </Typography>
-                </Box>
-              )}
-            </>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              minHeight={200}
+              textAlign="center"
+            >
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                No users found
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {searchTerm ? `No users match "${searchTerm}"` : 'No users available'}
+              </Typography>
+            </Box>
           )}
-        </DialogContent>
-      </Stack>
-    </Dialog>
+        </>
+      )}
+    </>
+  );
+
+  return (
+    <AppDialog open={open} onClose={handleClose} title="Find People" loading={isLoading}>
+      {dialogContent}
+    </AppDialog>
   );
 }
 

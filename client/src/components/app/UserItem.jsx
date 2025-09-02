@@ -1,7 +1,9 @@
 import { Add as AddIcon } from '@mui/icons-material';
-import { Avatar, IconButton, ListItem, Stack, Typography } from '@mui/material';
+import { IconButton, ListItem, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback } from 'react';
+
+import AppAvatar from '@/components/common/AppAvatar';
 
 // Optimized styles to prevent recreation on each render
 const textStyles = {
@@ -23,7 +25,6 @@ const buttonStyles = {
 
 function UserItem({ user, handler, isLoading = false }) {
   const { _id, id, name, avatar } = user;
-  const [avatarError, setAvatarError] = useState(false);
 
   // Use _id as fallback for id (common in MongoDB)
   const userId = id || _id;
@@ -34,21 +35,10 @@ function UserItem({ user, handler, isLoading = false }) {
     }
   }, [userId, handler, isLoading]);
 
-  const handleAvatarError = useCallback(() => {
-    setAvatarError(true);
-  }, []);
-
   return (
     <ListItem sx={{ py: 1 }} role="listitem" aria-label={`User ${name}`}>
       <Stack direction="row" alignItems="center" spacing={2} width="100%">
-        <Avatar
-          src={avatarError ? undefined : avatar}
-          alt={`${name}'s avatar`}
-          onError={handleAvatarError}
-          sx={{ width: 40, height: 40 }}
-        >
-          {!avatar || avatarError ? name?.charAt(0)?.toUpperCase() : null}
-        </Avatar>
+        <AppAvatar src={avatar} name={name} size={40} />
 
         <Typography
           variant="body1"

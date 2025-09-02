@@ -8,8 +8,10 @@ import {
 } from '@mui/icons-material';
 import { AppBar, Backdrop, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import { Link, useNavigate } from 'react-router';
+
+import { useDialogs } from '@/hooks';
 
 const SearchDialog = lazy(() => import('@/components/app/Search'));
 const NotificationDialog = lazy(() => import('@/components/app/Notifications'));
@@ -50,20 +52,13 @@ const ActionButton = ({ title, icon, onClick }) => {
 function Header() {
   const navigate = useNavigate();
 
-  // State for managing dialog/modal visibility
-  const [dialogs, setDialogs] = useState({
+  // State for managing dialog/modal visibility using custom hook
+  const { dialogs, toggleDialog } = useDialogs({
     mobile: false,
     search: false,
     newGroup: false,
     notification: false,
   });
-
-  const toggleDialog = (dialogName) => {
-    setDialogs((prev) => ({
-      ...prev,
-      [dialogName]: !prev[dialogName],
-    }));
-  };
 
   const handleNavigation = (path) => {
     navigate(path);
