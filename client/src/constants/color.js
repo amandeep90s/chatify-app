@@ -1,47 +1,47 @@
-// kids Color Palette
+// Playful Rainbow Vibes Color Palette (Kid-Friendly)
 export const kidsColors = {
-  // Primary kids Blue
-  primaryBlue: '#0A66C2',
-  primaryBlueLight: '#378FE9',
-  primaryBlueDark: '#004182',
+  // Primary UFO Green
+  primaryGreen: '#35D461', // UFO Green for main elements (buttons, online status)
+  primaryGreenLight: '#66E88A',
+  primaryGreenDark: '#249945',
 
   // Secondary colors
-  secondaryBlue: '#70B5F9',
-  lightBlue: '#9BCBF5',
+  secondaryYellow: '#F9E104', // Vivid Yellow for accents, highlights
+  lightYellow: '#FFEE4D',
 
   // Status colors
-  successGreen: '#057642',
-  warningAmber: '#A67C00',
-  errorRed: '#CC1016',
-  premiumGold: '#C37D16',
-  onlineGreen: '#57C778',
+  successGreen: '#35D461', // UFO Green for success/online
+  warningOrange: '#F99D07', // RYB Orange for warnings
+  errorViolet: '#882FF6', // Blue-Violet for errors
+  accentBlue: '#37B6F6', // Picton Blue for accents (e.g., typing status)
+  onlineGreen: '#35D461', // UFO Green for online status
 
   // Background colors
-  backgroundDefault: '#F4F2EE',
-  backgroundPaper: '#FFFFFF',
-  backgroundAccent: '#F3F2EF',
-  backgroundChat: '#F8F9FA',
+  backgroundDefault: '#E6F7FF', // Light Picton Blue-based for main background
+  backgroundPaper: '#FFFFFF', // White for cards/papers
+  backgroundAccent: '#F0E4FF', // Light Blue-Violet for highlights
+  backgroundChat: '#F0FBFF', // Very light blue for chat area
 
-  // Gray scale
-  gray100: '#F9F9F9',
-  gray200: '#F3F2EF',
-  gray300: '#E8E8E8',
-  gray400: '#CCCCCC',
-  gray500: '#949494',
-  gray600: '#666666',
-  gray700: '#4D4D4D',
-  gray800: '#333333',
-  gray900: '#1A1A1A',
+  // Gray scale (kept neutral for balance)
+  gray100: '#F8F9FA',
+  gray200: '#F1F3F4',
+  gray300: '#E8ECEF',
+  gray400: '#B0B3B8',
+  gray500: '#9AA0A6',
+  gray600: '#5F6368',
+  gray700: '#444746',
+  gray800: '#3C4043',
+  gray900: '#202124',
 
   // Text colors
-  textPrimary: '#000000',
-  textSecondary: '#666666',
-  textDisabled: '#949494',
+  textPrimary: '#1A1A1A', // Near-black for readability
+  textSecondary: '#4A4A4A', // Softer grey for secondary text
+  textDisabled: '#9AA0A6',
 
   // UI elements
-  divider: '#E8E8E8',
-  hover: '#F3F2EF',
-  border: '#CCCCCC',
+  divider: '#DADCE0',
+  hover: '#F0FBFF', // Light blue hover
+  border: '#B0B3B8',
 };
 
 // Export individual color groups for easy access
@@ -60,9 +60,10 @@ export const text = {
 
 export const status = {
   success: kidsColors.successGreen,
-  warning: kidsColors.warningAmber,
-  error: kidsColors.errorRed,
+  warning: kidsColors.warningOrange,
+  error: kidsColors.errorViolet,
   online: kidsColors.onlineGreen,
+  accent: kidsColors.accentBlue,
 };
 
 export const grays = {

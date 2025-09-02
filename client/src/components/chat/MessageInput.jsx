@@ -49,6 +49,7 @@ const AttachmentInput = styled('input')({
 const SendButton = styled(IconButton)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
+  rotate: '-30deg',
   padding: theme.spacing(1),
   '&:hover': {
     backgroundColor: theme.palette.primary.dark,
@@ -133,6 +134,7 @@ const MessageInput = memo(
           color="primary"
           size="small"
           aria-label="Attach file"
+          sx={{ transform: 'rotate(30deg)' }}
         >
           <AttachFileIcon />
         </IconButton>
@@ -162,11 +164,11 @@ const MessageInput = memo(
                 </InputAdornment>
               ),
             },
+            formHelperText: {
+              sx: { textAlign: 'right', margin: 0, fontSize: '0.75rem' },
+            },
           }}
           helperText={`${message.length}/${maxLength}`}
-          FormHelperTextProps={{
-            sx: { textAlign: 'right', margin: 0, fontSize: '0.75rem' },
-          }}
         />
 
         <SendButton onClick={handleSendMessage} disabled={!canSend} size="small" aria-label="Send message">
