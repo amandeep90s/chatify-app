@@ -16,6 +16,8 @@ const MessageInputContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   backgroundColor: theme.palette.background.paper,
   borderTop: `1px solid ${theme.palette.divider}`,
+  flexShrink: 0, // Prevent the input from shrinking
+  minHeight: '60px', // Ensure minimum height
 }));
 
 const StyledTextField = styled(TextField)(({ theme }) => ({

@@ -1,6 +1,6 @@
-// LinkedIn Color Palette
-export const linkedinColors = {
-  // Primary LinkedIn Blue
+// kids Color Palette
+export const kidsColors = {
+  // Primary kids Blue
   primaryBlue: '#0A66C2',
   primaryBlueLight: '#378FE9',
   primaryBlueDark: '#004182',
@@ -46,35 +46,35 @@ export const linkedinColors = {
 
 // Export individual color groups for easy access
 export const backgrounds = {
-  default: linkedinColors.backgroundDefault,
-  paper: linkedinColors.backgroundPaper,
-  accent: linkedinColors.backgroundAccent,
-  chat: linkedinColors.backgroundChat,
+  default: kidsColors.backgroundDefault,
+  paper: kidsColors.backgroundPaper,
+  accent: kidsColors.backgroundAccent,
+  chat: kidsColors.backgroundChat,
 };
 
 export const text = {
-  primary: linkedinColors.textPrimary,
-  secondary: linkedinColors.textSecondary,
-  disabled: linkedinColors.textDisabled,
+  primary: kidsColors.textPrimary,
+  secondary: kidsColors.textSecondary,
+  disabled: kidsColors.textDisabled,
 };
 
 export const status = {
-  success: linkedinColors.successGreen,
-  warning: linkedinColors.warningAmber,
-  error: linkedinColors.errorRed,
-  online: linkedinColors.onlineGreen,
+  success: kidsColors.successGreen,
+  warning: kidsColors.warningAmber,
+  error: kidsColors.errorRed,
+  online: kidsColors.onlineGreen,
 };
 
 export const grays = {
-  100: linkedinColors.gray100,
-  200: linkedinColors.gray200,
-  300: linkedinColors.gray300,
-  400: linkedinColors.gray400,
-  500: linkedinColors.gray500,
-  600: linkedinColors.gray600,
-  700: linkedinColors.gray700,
-  800: linkedinColors.gray800,
-  900: linkedinColors.gray900,
+  100: kidsColors.gray100,
+  200: kidsColors.gray200,
+  300: kidsColors.gray300,
+  400: kidsColors.gray400,
+  500: kidsColors.gray500,
+  600: kidsColors.gray600,
+  700: kidsColors.gray700,
+  800: kidsColors.gray800,
+  900: kidsColors.gray900,
 };
 
-export default linkedinColors;
+export default kidsColors;

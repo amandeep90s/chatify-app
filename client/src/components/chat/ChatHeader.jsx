@@ -18,6 +18,7 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   borderBottom: `1px solid ${theme.palette.divider}`,
   minHeight: 70,
+  flexShrink: 0, // Prevent the header from shrinking
 }));
 
 const ChatInfo = styled(Box)(({ theme }) => ({

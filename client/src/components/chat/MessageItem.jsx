@@ -33,11 +33,11 @@ const MessageBubble = styled(Card, {
   minWidth: '120px',
   padding: theme.spacing(1, 1.5),
   backgroundColor: isOwn
-    ? theme.palette.linkedin?.outgoing || theme.palette.primary.main
-    : theme.palette.linkedin?.incoming || theme.palette.background.paper,
+    ? theme.palette.kids?.outgoing || theme.palette.primary.main
+    : theme.palette.kids?.incoming || theme.palette.background.paper,
   color: isOwn
-    ? theme.palette.linkedin?.outgoingText || theme.palette.primary.contrastText
-    : theme.palette.linkedin?.incomingText || theme.palette.text.primary,
+    ? theme.palette.kids?.outgoingText || theme.palette.primary.contrastText
+    : theme.palette.kids?.incomingText || theme.palette.text.primary,
   borderRadius: theme.spacing(2),
   border: `1px solid ${theme.palette.divider}`,
   position: 'relative',
@@ -51,8 +51,8 @@ const MessageBubble = styled(Card, {
     borderStyle: 'solid',
     borderWidth: isOwn ? '8px 0 0 8px' : '8px 8px 0 0',
     borderColor: isOwn
-      ? `transparent transparent transparent ${theme.palette.linkedin?.outgoing || theme.palette.primary.main}`
-      : `transparent ${theme.palette.linkedin?.incoming || theme.palette.background.paper} transparent transparent`,
+      ? `transparent transparent transparent ${theme.palette.kids?.outgoing || theme.palette.primary.main}`
+      : `transparent ${theme.palette.kids?.incoming || theme.palette.background.paper} transparent transparent`,
   },
 }));
 

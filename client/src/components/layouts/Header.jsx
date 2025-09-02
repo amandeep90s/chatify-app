@@ -95,18 +95,17 @@ function Header() {
   return (
     <>
       <HeaderContainer>
-        <AppBar position="static" color="transparent" elevation={0}>
+        <AppBar position="static" color="transparent" sx={{ borderRadius: 0 }} elevation={0}>
           <Toolbar
             sx={{
               display: 'flex',
+              borderRadius: 0,
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
-            <HeaderLink to="/">
-              <HeaderText sx={{ display: { xs: 'none', sm: 'block' } }} variant="h6">
-                Chatify
-              </HeaderText>
+            <HeaderLink sx={{ display: { xs: 'none', sm: 'block' } }} to="/">
+              <HeaderText variant="h6">Chatify</HeaderText>
             </HeaderLink>
 
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>

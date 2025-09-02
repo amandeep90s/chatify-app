@@ -15,6 +15,7 @@ const MessageListContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   overflow: 'hidden',
   backgroundColor: theme.palette.background.default,
+  minHeight: 0, // Allow flex shrinking
 }));
 
 const MessagesScrollArea = styled(Box)(({ theme }) => ({
@@ -25,6 +26,7 @@ const MessagesScrollArea = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(0.5),
+  minHeight: 0, // Allow flex shrinking
   // Custom scrollbar styling
   '&::-webkit-scrollbar': {
     width: '6px',

@@ -12,22 +12,31 @@ import { sampleChats } from '@/constants/sampleData';
 const LayoutContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  minHeight: '100vh',
+  height: '100vh',
   backgroundColor: theme.palette.background.default,
+  overflow: 'hidden',
 }));
 
 const MainContentContainer = styled(Grid)(({ theme }) => ({
   flex: 1,
-  height: '100%',
+  height: 'calc(100vh - 64px - 56px)', // Subtract header height (64px) and footer height (~56px)
+  overflow: 'hidden',
   '& .MuiGrid-item': {
     display: 'flex',
     flexDirection: 'column',
+    height: '100%',
+    overflow: 'hidden',
+  },
+  '& > .MuiGrid-root': {
+    height: '100%',
+    overflow: 'hidden',
   },
   [theme.breakpoints.down('md')]: {
-    height: 'auto',
-    minHeight: 'calc(100vh - 120px)', // Adjusted for header + title + footer
+    height: 'calc(100vh - 64px - 56px)',
+    minHeight: 'calc(100vh - 64px - 56px)',
     '& .MuiGrid-item': {
-      minHeight: '300px', // Minimum height for mobile grid items
+      minHeight: '300px',
+      overflow: 'hidden',
     },
   },
 }));
@@ -69,7 +78,7 @@ function AppLayout() {
 
       {/* Main Content Area */}
       <MainContentContainer container spacing={2}>
-        <Grid size={{ sm: 4, md: 3 }} sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Grid size={{ sm: 4, md: 3 }} sx={{ display: { xs: 'none', sm: 'block' }, height: '100%', overflow: 'hidden' }}>
           <ChatList
             chats={sampleChats}
             chatId={chatId}
@@ -78,10 +87,16 @@ function AppLayout() {
             handleDeleteChat={handleDeleteChat}
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 8, md: 5, lg: 6 }}>
+        <Grid
+          size={{ xs: 12, sm: 8, md: 5, lg: 6 }}
+          sx={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        >
           <Outlet />
         </Grid>
-        <ProfileGridContainer size={{ md: 4, lg: 3 }} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <ProfileGridContainer
+          size={{ md: 4, lg: 3 }}
+          sx={{ display: { xs: 'none', md: 'block' }, height: '100%', overflow: 'hidden' }}
+        >
           <Profile />
         </ProfileGridContainer>
       </MainContentContainer>

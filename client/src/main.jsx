@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 
 import App from '@/App.jsx';
-import linkedinTheme from '@/theme/linkedinTheme.js';
+import kidsTheme from '@/theme/rainbowTheme.js';
 
 import '@fontsource/ibm-plex-sans/300.css'; // Light
 import '@fontsource/ibm-plex-sans/400.css'; // Regular
@@ -15,7 +15,7 @@ import '@fontsource/ibm-plex-sans/700.css'; // Bold
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
-      <ThemeProvider theme={linkedinTheme}>
+      <ThemeProvider theme={kidsTheme}>
         <CssBaseline />
         <div onContextMenu={(e) => e.preventDefault()}>
           <App />

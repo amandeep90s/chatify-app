@@ -18,6 +18,7 @@ const ChatWindowContainer = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.spacing(1),
+  minHeight: 0, // Allow flex shrinking
 }));
 
 const ChatWindow = memo(

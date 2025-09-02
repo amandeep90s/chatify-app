@@ -9,7 +9,7 @@ import { sampleCurrentChat, sampleMessages } from '@/constants/sampleData';
 const ChatPageContainer = styled(Box)(() => ({
   display: 'flex',
   flexDirection: 'column',
-  height: '100vh',
+  height: '100%',
   overflow: 'hidden',
 }));
 
