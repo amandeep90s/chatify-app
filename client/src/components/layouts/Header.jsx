@@ -65,6 +65,10 @@ function Header() {
     }));
   };
 
+  const handleCloseSearch = () => {
+    setDialogs((prev) => ({ ...prev, search: false }));
+  };
+
   const handleNavigation = (path) => {
     navigate(path);
   };
@@ -131,7 +135,7 @@ function Header() {
 
       <Suspense fallback={<Backdrop open />}>
         {/* Search Dialog */}
-        {dialogs.search && <SearchDialog />}
+        {dialogs.search && <SearchDialog open={dialogs.search} onClose={handleCloseSearch} />}
 
         {/* Notification Dialog */}
         {dialogs.notification && <NotificationDialog />}
